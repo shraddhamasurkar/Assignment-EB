@@ -1,0 +1,122 @@
+{
+  "info": {
+    "_postman_id": "6a2149f3-f16a-49fc-a4ea-35f789d240e7",
+    "name": "JSONPlaceholder Post Automation",
+    "description": "Automated GET, POST, and DELETE checks for JSONPlaceholder /posts. Run the requests in order using the collection runner; the POST test stores the created ID for DELETE.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://jsonplaceholder.typicode.com"
+    },
+    {
+      "key": "postId",
+      "value": "1"
+    },
+    {
+      "key": "newTitle",
+      "value": "QA automation sample post"
+    },
+    {
+      "key": "newBody",
+      "value": "Created by the Postman collection test."
+    }
+  ],
+  "item": [
+    {
+      "name": "GET - List posts",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Response is a JSON array of posts', function () {",
+              "    const posts = pm.response.json();",
+              "    pm.expect(posts).to.be.an('array').that.is.not.empty;",
+              "    pm.expect(posts[0]).to.have.all.keys('userId', 'id', 'title', 'body');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/posts"
+      },
+      "response": []
+    },
+    {
+      "name": "POST - Create post",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 201', function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test('Response contains the submitted title and body', function () {",
+              "    const createdPost = pm.response.json();",
+              "    pm.expect(createdPost.title).to.eql(pm.collectionVariables.get('newTitle'));",
+              "    pm.expect(createdPost.body).to.eql(pm.collectionVariables.get('newBody'));",
+              "    pm.expect(createdPost).to.have.property('id');",
+              "    pm.collectionVariables.set('postId', createdPost.id);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"{{newTitle}}\",\n  \"body\": \"{{newBody}}\",\n  \"userId\": 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/posts"
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE - Delete created post",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200 or 204', function () {",
+              "    pm.expect([200, 204]).to.include(pm.response.code);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/posts/{{postId}}"
+      },
+      "response": []
+    }
+  ]
+}

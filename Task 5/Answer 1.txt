@@ -1,0 +1,7 @@
+I’d treat the falling velocity as a signal to stabilize the test suite, not simply ask the team to write more tests or rerun failures.
+1. Measure the problem. Review recent CI runs and identify which tests fail intermittently, how often, and where—such as environment, test data, timing, or shared state. Separate genuine product defects from test infrastructure issues.
+2. Contain the impact. Quarantine only confirmed flaky tests, mark them clearly, and assign an owner and a deadline to fix them. Keep the rest of the suite useful; don’t let reruns conceal real failures.
+3. Find and fix root causes. Pair engineers to investigate the highest impact tests. Common fixes include replacing fixed sleeps with condition based waits, isolating test data, removing order dependencies, cleaning up state, and making environment setup consistent.
+4. Protect delivery. Agree with developers on which reliable checks remain required for merges and releases. Track quarantined tests separately so they don’t disappear from view.
+5. Prevent recurrence. Set team standards for test design and review, and monitor flake rate, rerun rate, and time spent diagnosing failures. Share findings in short weekly reviews and adjust priorities based on the data.
+As team lead, I’d make the work visible and distribute ownership across the four engineers, while keeping time for planned feature coverage. Success means fewer intermittent failures and faster trustworthy feedback—not just a green build after repeated reruns.

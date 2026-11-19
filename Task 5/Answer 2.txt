@@ -1,0 +1,9 @@
+I’d handle it in two tracks: reduce immediate customer impact, then find out why our process missed the bugs.
+
+First, contain and investigate. I’d work with engineering and product to assess severity, affected users, and any workaround. Depending on risk, we might roll back, disable the affected feature, or issue a hotfix. I’d keep the client informed through the agreed channel and verify the fix before it ships.
+
+Then, run a blameless review of both misses. For each bug, I’d trace how it entered the release, what requirement or risk it relates to, which tests covered that area, and why those tests didn’t catch it. I’d look at test data, environment differences, automation reliability, and whether acceptance criteria were clear.
+
+Turn findings into specific changes. I’d add regression coverage for both bugs at the most appropriate level, improve relevant risk based scenarios, and update the release checklist or review process where the evidence shows a gap. I’d assign owners and dates, and verify the new checks run reliably in CI or the release process.
+
+Finally, I’d track whether these actions reduce escaped critical defects without slowing feedback unnecessarily. The goal is to learn from the misses and make the release process more dependable, not to assign blame.
